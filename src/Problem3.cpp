@@ -51,6 +51,8 @@ Difficulty : Medium
 #include <stdlib.h>;
 #include <stdio.h>
 
+int doOperation(int, int, char *);
+
 //data can be accessed using root->data;
 struct enode{
 	char data[6];
@@ -63,17 +65,44 @@ Helper Functions are optional to write
 */
 //Helper Functions Start
 int isOperator(char *data){
-	return 0;
+	if (data == "+" || data == "-" || data == "*")
+		return 1;
+	else
+		return 0;
 }
 int isOperand(char *data){
 	return 0;
 }
 int getOperand(char *data){
 	//converts data string to an integer "123" => 123
-	return 0;
+	int num=0;
+	for (int i = 0; data[i] != '\0'; i++)
+		num = num * 10 + data[i] - '\0';
+	return num;
 }
 //Helper Functions end
 int solve_tree(struct enode *root){
+	int a, b,result;
+	if (root==NULL)
     return -1;
+	struct enode *temp = root;
+	if (isOperator(root->data))
+	{
+		a = getOperand(root->left->data);
+		b = getOperand(root->right->data);
+		result = doOperation(a, b, root->data);
+	}
+	return result;
 }
 
+int doOperation(int a, int b, char *data)
+{
+	int c;
+	if (data == "+")
+		c = a + b;
+	else if (data == "-")
+		c = a - b;
+	else if (data == "*")
+		c = a*b;
+	return c;
+}
